@@ -21,6 +21,9 @@
 * ###### Frontend Development: Visual Studio Code
 * ###### Backend Development: Eclipse IDE
 * ###### Database Management: MySQL Workbench
+* ###### Frontend Deployment: Vercel
+* ###### Backend Deployment: Railway
+* ###### Version Control: Git,Github
 
 ###### 
 
@@ -304,17 +307,19 @@
 
 ###### &#x20;12. Deployment
 
-###### 
+###### Live Deployment :-
+* ###### Frontend : https://employee-enrollment-system-submissi.vercel.app/
+* ###### Backend : https://employeeenrollmentsystemsubmission-production.up.railway.app
 
-###### The application is currently configured for local execution.
-
-###### 
-
+###### Local Deployment :-
 * ###### Frontend: http://localhost:5176
 * ###### Backend: http://localhost:8080
 * ###### Database: MySQL
 
-###### 
+###### The frontend is deployed on Vercel, and the Spring Boot backend is deployed on Railway. The deployed backend connects to the Railway MySQL database.
+###### For local development, configure the backend to connect to your local MySQL instance and run the frontend and backend separately.
+
+######
 
 ###### &#x20;13. Author
 

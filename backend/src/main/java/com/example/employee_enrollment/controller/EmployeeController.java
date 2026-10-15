@@ -12,7 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
-@CrossOrigin(origins = "http://localhost:5176", allowCredentials = "true")
+@CrossOrigin(origins = {
+        "https://employee-enrollment-system-submissi.vercel.app",
+        "http://localhost:5176"
+    } , allowCredentials = "true")
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;

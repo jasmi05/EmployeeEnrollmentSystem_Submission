@@ -17,18 +17,70 @@ const emptyForm = {
 };
 
 const fields = [
-  { name: "name", label: "Full name", placeholder: "Enter full name", required: true },
-  { name: "email", label: "Email address", placeholder: "name@company.com", type: "email", required: true },
-  { name: "phone", label: "Phone number", placeholder: "10-digit mobile number", required: true },
-  { name: "dob", label: "Date of birth", type: "date", required: true },
-  { name: "address", label: "Residential address", placeholder: "City, state", required: true, wide: true },
-  { name: "department", label: "Department", placeholder: "e.g. Engineering", required: true },
-  { name: "jobTitle", label: "Job title", placeholder: "e.g. Software Engineer", required: true },
-  { name: "joiningDate", label: "Joining date", type: "date", required: true },
-  { name: "emergencyContact", label: "Emergency contact", placeholder: "10-digit mobile number", required: true },
+  {
+    name: "name",
+    label: "Full name",
+    placeholder: "Enter full name",
+    required: true,
+  },
+  {
+    name: "email",
+    label: "Email address",
+    placeholder: "name@company.com",
+    type: "email",
+    required: true,
+  },
+  {
+    name: "phone",
+    label: "Phone number",
+    placeholder: "10-digit phone number",
+    required: true,
+  },
+  {
+    name: "dob",
+    label: "Date of birth",
+    type: "date",
+    required: true,
+  },
+  {
+    name: "address",
+    label: "Residential address",
+    placeholder: "City, state",
+    required: true,
+    wide: true,
+  },
+  {
+    name: "department",
+    label: "Department",
+    placeholder: "e.g. Engineering",
+    required: true,
+  },
+  {
+    name: "jobTitle",
+    label: "Job title",
+    placeholder: "e.g. Software Engineer",
+    required: true,
+  },
+  {
+    name: "joiningDate",
+    label: "Joining date",
+    type: "date",
+    required: true,
+  },
+  {
+    name: "emergencyContact",
+    label: "Emergency contact",
+    placeholder: "10-digit phone number",
+    required: true,
+  },
 ];
 
-export default function EmployeeForm({ employee, employees, onSave, onClose }) {
+export default function EmployeeForm({
+  employee,
+  employees,
+  onSave,
+  onClose,
+}) {
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState("");
 
@@ -39,7 +91,11 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
 
   function update(event) {
     const { name, value } = event.target;
-    setForm((previous) => ({ ...previous, [name]: value }));
+
+    setForm((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
   }
 
   function submit(event) {
@@ -49,6 +105,11 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
     const email = form.email.trim().toLowerCase();
     const phone = form.phone.trim();
     const emergency = form.emergencyContact.trim();
+
+    // TEMPORARY DEBUGGING: Check the actual phone value.
+    console.log("Phone value:", JSON.stringify(form.phone));
+    console.log("Phone length:", form.phone.length);
+    console.log("Phone validation:", /^\d{10}$/.test(phone));
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Please enter a valid email address.");
@@ -76,13 +137,22 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
       return;
     }
 
-    if (form.dob && form.dob > new Date().toISOString().slice(0, 10)) {
+    if (
+      form.dob &&
+      form.dob > new Date().toISOString().slice(0, 10)
+    ) {
       setError("Date of birth cannot be in the future.");
       return;
     }
 
-    if (form.joiningDate && form.dob && form.joiningDate < form.dob) {
-      setError("Joining date cannot be earlier than date of birth.");
+    if (
+      form.joiningDate &&
+      form.dob &&
+      form.joiningDate < form.dob
+    ) {
+      setError(
+        "Joining date cannot be earlier than date of birth."
+      );
       return;
     }
 
@@ -103,14 +173,22 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-violet-300">
               EMPLOYEE RECORD
             </p>
+
             <h2 className="mt-2 text-xl font-semibold">
               {employee ? "Update employee" : "New enrollment"}
             </h2>
+
             <p className="mt-1 text-sm text-[#9290a9]">
               Enter the employee's information below.
             </p>
           </div>
-          <button onClick={onClose} className="rounded-lg p-2 text-[#9290a9] hover:bg-white/5" aria-label="Close form">
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg p-2 text-[#9290a9] hover:bg-white/5"
+            aria-label="Close form"
+          >
             <X size={20} />
           </button>
         </div>
@@ -118,10 +196,19 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
         <form onSubmit={submit} className="p-5 sm:p-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {fields.map((field) => (
-              <label key={field.name} className={`block ${field.wide ? "sm:col-span-2" : ""}`}>
+              <label
+                key={field.name}
+                className={`block ${
+                  field.wide ? "sm:col-span-2" : ""
+                }`}
+              >
                 <span className="mb-2 block text-sm text-[#c6c4d8]">
-                  {field.label} {field.required && <span className="text-violet-300">*</span>}
+                  {field.label}{" "}
+                  {field.required && (
+                    <span className="text-violet-300">*</span>
+                  )}
                 </span>
+
                 <input
                   className="field text-sm"
                   name={field.name}
@@ -130,14 +217,27 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
                   onChange={update}
                   placeholder={field.placeholder || ""}
                   required={field.required}
-                  max={field.type === "date" ? new Date().toISOString().slice(0, 10) : undefined}
+                  max={
+                    field.type === "date"
+                      ? new Date().toISOString().slice(0, 10)
+                      : undefined
+                  }
                 />
               </label>
             ))}
 
             <label className="block">
-              <span className="mb-2 block text-sm text-[#c6c4d8]">Employment type *</span>
-              <select className="field text-sm" name="employmentType" value={form.employmentType} onChange={update} required>
+              <span className="mb-2 block text-sm text-[#c6c4d8]">
+                Employment type *
+              </span>
+
+              <select
+                className="field text-sm"
+                name="employmentType"
+                value={form.employmentType}
+                onChange={update}
+                required
+              >
                 <option>Full-time</option>
                 <option>Part-time</option>
                 <option>Contract</option>
@@ -146,8 +246,17 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
             </label>
 
             <label className="block">
-              <span className="mb-2 block text-sm text-[#c6c4d8]">Enrollment status *</span>
-              <select className="field text-sm" name="status" value={form.status} onChange={update} required>
+              <span className="mb-2 block text-sm text-[#c6c4d8]">
+                Enrollment status *
+              </span>
+
+              <select
+                className="field text-sm"
+                name="status"
+                value={form.status}
+                onChange={update}
+                required
+              >
                 <option>Pending</option>
                 <option>Active</option>
                 <option>Inactive</option>
@@ -156,15 +265,27 @@ export default function EmployeeForm({ employee, employees, onSave, onClose }) {
           </div>
 
           {error && (
-            <p role="alert" className="mt-4 rounded-lg border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-300">
+            <p
+              role="alert"
+              className="mt-4 rounded-lg border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-300"
+            >
               {error}
             </p>
           )}
 
           <div className="mt-6 flex flex-col-reverse justify-end gap-3 border-t border-[#29293d] pt-5 sm:flex-row">
-            <button type="button" onClick={onClose} className="secondary-btn">Cancel</button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="secondary-btn"
+            >
+              Cancel
+            </button>
+
             <button type="submit" className="primary-btn">
-              {employee ? "Save changes" : "Create employee record"}
+              {employee
+                ? "Save changes"
+                : "Create employee record"}
             </button>
           </div>
         </form>

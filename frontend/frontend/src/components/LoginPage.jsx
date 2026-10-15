@@ -25,7 +25,7 @@ async function submit(event) {
 
   try {
     const response = await fetch(
-      "http://localhost:8080/api/auth/login",
+      "https://employeeenrollmentsystemsubmission-production.up.railway.app/api/auth/login",
       {
         method: "POST",
         credentials: "include",
